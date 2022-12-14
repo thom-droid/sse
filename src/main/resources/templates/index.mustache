@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>sse test</title>
+</head>
+<body>
+<div>
+    <h1>sse test</h1>
+    <div><p>below the content..</p></div>
+    <div id = "sse">
+        <div></div>
+
+    </div>
+
+
+</div>
+<script>
+var sse = new EventSource('http://localhost:8080/sse');
+sse.onmessage = function (evt) {
+    var el = document.getElementById('sse');
+    el.appendChild(document.createTextNode(evt.data));
+    el.appendChild(document.createElement('br'));
+};
+</script>
+</body>
+</html>
