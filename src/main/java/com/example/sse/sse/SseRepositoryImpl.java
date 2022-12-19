@@ -1,23 +1,26 @@
 package com.example.sse.sse;
 
+import org.springframework.stereotype.Repository;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import java.util.List;
+import java.util.Map;
 
+@Repository
 public class SseRepositoryImpl implements SseRepository {
 
     @Override
-    public void saveAllEvents(List<SseEmitter> sseEmitters) {
-
+    public Map<String, SseEmitter> saveEmitter(String emitterId, SseEmitter sseEmitter) {
+        return null;
     }
 
     @Override
-    public void removeAllEvent(String userId) {
-
+    public Map saveEvent(String eventId, Object event) {
+        return null;
     }
 
     @Override
-    public List<SseEmitter> getAllSsesByUserId(String userId) {
+    public Map<String, SseEmitter> findAllSseByMemberId(String memberId) {
         return null;
     }
 }
