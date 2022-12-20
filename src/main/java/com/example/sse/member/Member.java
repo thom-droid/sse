@@ -3,6 +3,7 @@ package com.example.sse.member;
 import com.example.sse.board.Board;
 import com.example.sse.notification.Notification;
 import com.example.sse.reply.Reply;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -23,8 +24,9 @@ public class Member {
 
     private String name;
 
+    @JsonIgnore
     @Builder.Default
-    @OneToMany(mappedBy = "writer")
+    @OneToMany(mappedBy = "writer", fetch = FetchType.LAZY)
     private List<Board> boardList = new ArrayList<>();
 
     @Builder.Default

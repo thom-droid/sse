@@ -1,9 +1,6 @@
 package com.example.sse.board.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 public class BoardDto {
 
@@ -11,11 +8,20 @@ public class BoardDto {
     @NoArgsConstructor
     @Setter
     @Getter
+    @Builder
     public static class Post {
 
         private Long writerId;
         private String title;
         private String content;
+
+        public static Post of(Long writerId, String title, String content) {
+            return Post.builder()
+                    .writerId(writerId)
+                    .title(title)
+                    .content(content)
+                    .build();
+        }
 
     }
 }

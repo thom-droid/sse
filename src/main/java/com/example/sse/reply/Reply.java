@@ -28,5 +28,5 @@ public class Reply {
 
     @ManyToOne
     @JoinColumn(name = "WRITER_ID")
-    private Member member;
+    private Member writer;
 }
