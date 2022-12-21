@@ -8,9 +8,15 @@ import java.util.Map;
 
 public interface SseRepository<T> {
 
-    Map<String, SseEmitter> saveEmitter(String emitterId, SseEmitter sseEmitter);
+    SseEmitter save(String emitterId, SseEmitter sseEmitter);
 
-    Map<String, T> saveEvent(String eventId, T event);
+    T saveEvent(String eventId, T event);
 
     Map<String, SseEmitter> findAllSseByMemberId(String memberId);
+
+    Map<String, T> findAllEventsByMemberId(String memberId);
+
+    void deleteById(String emitterId);
+
+    void deleteAllByMemberId(String memberId);
 }
