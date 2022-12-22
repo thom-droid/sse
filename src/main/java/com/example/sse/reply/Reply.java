@@ -2,6 +2,7 @@ package com.example.sse.reply;
 
 import com.example.sse.board.Board;
 import com.example.sse.member.Member;
+import com.example.sse.reply.dto.ReplyRequestDto;
 import lombok.*;
 
 import javax.persistence.*;
@@ -29,4 +30,32 @@ public class Reply {
     @ManyToOne
     @JoinColumn(name = "WRITER_ID")
     private Member writer;
+
+    public static Reply of(ReplyRequestDto.Post requestDto) {
+        Board board = new Board();
+        board.setId(requestDto.getBoardId());
+        Member writer = new Member();
+        writer.setId(requestDto.getWriterId());
+
+        return Reply.builder()
+                .content(requestDto.getContent())
+                .board(board)
+                .writer(writer)
+                .build();
+
+    }
+
+    public void addMember(Member writer) {
+        this.writer = writer;
+        if (!writer.getReplyList().contains(this)) {
+            writer.getReplyList().add(this);
+        }
+    }
+
+    public void addBoard(Board board) {
+        this.board = board;
+        if (!board.getReplies().contains(this)) {
+            board.getReplies().add(this);
+        }
+    }
 }
