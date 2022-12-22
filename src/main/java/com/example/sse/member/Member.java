@@ -9,6 +9,7 @@ import lombok.*;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Entity
 @AllArgsConstructor
@@ -22,6 +23,8 @@ public class Member {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Builder.Default
+    private String uuid = UUID.randomUUID().toString();
     private String name;
 
     @JsonIgnore
@@ -36,6 +39,5 @@ public class Member {
     @Builder.Default
     @OneToMany(mappedBy = "writer", fetch = FetchType.LAZY)
     private List<Reply> replyList = new ArrayList<>();
-
 
 }

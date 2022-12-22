@@ -31,7 +31,7 @@ class SseRepositoryImplTest {
         String emitterId = member.getId() + "-" + LocalDateTime.now();
         SseEmitter sseEmitter = new SseEmitter();
 
-        assertDoesNotThrow(() -> sseRepository.save(emitterId, sseEmitter));
+        assertDoesNotThrow(() -> sseRepository.saveSse(emitterId, sseEmitter));
 
     }
 
@@ -62,14 +62,14 @@ class SseRepositoryImplTest {
         String emitterId4 = member.getId() + "-" + LocalDateTime.now();
         SseEmitter sseEmitter4 = new SseEmitter();
 
-        sseRepository.save(emitterId1, sseEmitter1);
-        sseRepository.save(emitterId2, sseEmitter2);
-        sseRepository.save(emitterId3, sseEmitter3);
-        sseRepository.save(emitterId4, sseEmitter4);
+        sseRepository.saveSse(emitterId1, sseEmitter1);
+        sseRepository.saveSse(emitterId2, sseEmitter2);
+        sseRepository.saveSse(emitterId3, sseEmitter3);
+        sseRepository.saveSse(emitterId4, sseEmitter4);
 
         String memberId = member.getId() + "-";
 
-        Map<String, SseEmitter> map = sseRepository.findAllSseByMemberId(memberId);
+        Map<String, SseEmitter> map = sseRepository.findAllSseByMemberUUID(memberId);
 
         assertEquals(4, map.size());
 
@@ -98,7 +98,7 @@ class SseRepositoryImplTest {
 
         String memberId = member.getId() + "-";
 
-        Map<String, Notification> map = sseRepository.findAllEventsByMemberId(memberId);
+        Map<String, Notification> map = sseRepository.findAllEventsByMemberUUID(memberId);
 
         assertEquals(3, map.size());
 
@@ -112,10 +112,10 @@ class SseRepositoryImplTest {
         String emitterId1 = member.getId() + "-" + LocalDateTime.now();
         SseEmitter sseEmitter1 = new SseEmitter();
 
-        sseRepository.save(emitterId1, sseEmitter1);
-        sseRepository.deleteById(emitterId1);
+        sseRepository.saveSse(emitterId1, sseEmitter1);
+        sseRepository.deleteEmitterById(emitterId1);
 
-        Map<String, SseEmitter> map = sseRepository.findAllSseByMemberId(emitterId1);
+        Map<String, SseEmitter> map = sseRepository.findAllSseByMemberUUID(emitterId1);
 
         assertTrue(map.isEmpty());
     }
@@ -138,16 +138,16 @@ class SseRepositoryImplTest {
         String emitterId4 = member.getId() + "-" + LocalDateTime.now();
         SseEmitter sseEmitter4 = new SseEmitter();
 
-        sseRepository.save(emitterId1, sseEmitter1);
-        sseRepository.save(emitterId2, sseEmitter2);
-        sseRepository.save(emitterId3, sseEmitter3);
-        sseRepository.save(emitterId4, sseEmitter4);
+        sseRepository.saveSse(emitterId1, sseEmitter1);
+        sseRepository.saveSse(emitterId2, sseEmitter2);
+        sseRepository.saveSse(emitterId3, sseEmitter3);
+        sseRepository.saveSse(emitterId4, sseEmitter4);
 
         String memberId = member.getId() + "-";
 
-        sseRepository.deleteAllByMemberId(memberId);
+        sseRepository.deleteAllEmittersByMemberUUID(memberId);
 
-        Map<String, SseEmitter> map = sseRepository.findAllSseByMemberId(memberId);
+        Map<String, SseEmitter> map = sseRepository.findAllSseByMemberUUID(memberId);
 
         assertTrue(map.isEmpty());
 
