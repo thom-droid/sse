@@ -14,4 +14,8 @@ public class MemberService {
         return memberRepository.findById(memberId).orElseThrow();
     }
 
+    public Member findMember(Member member) {
+        return memberRepository.findMemberByNameAndPassword(member.getName(), member.getPassword()).orElseThrow();
+    }
+
 }

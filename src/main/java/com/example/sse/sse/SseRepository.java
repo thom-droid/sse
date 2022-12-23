@@ -1,16 +1,20 @@
 package com.example.sse.sse;
 
-import com.example.sse.notification.Notification;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
-import java.util.List;
 import java.util.Map;
 
 public interface SseRepository<T> {
 
-    Map<String, SseEmitter> saveEmitter(String emitterId, SseEmitter sseEmitter);
+    SseEmitter saveSse(String emitterId, SseEmitter sseEmitter);
 
-    Map<String, T> saveEvent(String eventId, T event);
+    T saveEvent(String eventId, T event);
 
-    Map<String, SseEmitter> findAllSseByMemberId(String memberId);
+    Map<String, SseEmitter> findAllSseByMemberUUID(String memberUUID);
+
+    Map<String, T> findAllEventsByMemberUUID(String memberUUID);
+
+    void deleteEmitterById(String emitterId);
+
+    void deleteAllEmittersByMemberUUID(String memberUUID);
 }

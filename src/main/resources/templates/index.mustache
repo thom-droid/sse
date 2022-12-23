@@ -6,12 +6,25 @@
 </head>
 <body>
 <div>
-    <h1>sse test</h1>
-    <div><p>below the content..</p></div>
+    <h1>login</h1>
+    {{^member}}
+    <div><p>로그인 하세요</p></div>
     <div id = "sse">
-        <div></div>
+        <div>
+            <form method="post" action="/login">
+                <input type="text" name="name" id="name">
+                <input type="password" name="password" id="password">
+                <button type="button"> 로그인</button>
+            </form>
+
+        </div>
 
     </div>
+    {{/member}}
+    {{#member}}
+        <h1>안녕하세요, {{member.name}} 님</h1>
+        <div>UUID : {{member.uuid}} </div>
+    {{/member}}
 
 
 </div>
