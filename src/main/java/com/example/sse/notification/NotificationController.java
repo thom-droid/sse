@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
@@ -17,8 +18,12 @@ public class NotificationController {
 
     @GetMapping(value = "/event-stream", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     public SseEmitter subscribeEvent(
-            String memberUUID,
+            @RequestParam("member-uuid") String memberUUID,
             @RequestHeader(required = false, value = "Last-Event-ID") String lastEventId) {
+
+        if (memberUUID.isEmpty()) {
+            return null;
+        }
 
         return notificationService.subscribe(memberUUID, lastEventId);
 

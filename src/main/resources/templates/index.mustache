@@ -7,34 +7,33 @@
 <body>
 <div>
     <h1>login</h1>
-    {{^member}}
-    <div><p>로그인 하세요</p></div>
-    <div id = "sse">
-        <div>
-            <form method="post" action="/login">
-                <input type="text" name="name" id="name">
-                <input type="password" name="password" id="password">
-                <button type="button"> 로그인</button>
-            </form>
-
+    {{#member}}
+        <div></div>
+        <h1>안녕하세요, {{member.name}} 님</h1>
+        <div id="uuid">{{member.uuid}} </div>
+        <div></div>
+        <div id="notification"> 알림 정보가 표시됩니다
+            <div></div>
         </div>
 
-    </div>
+        <script src="/js/event.js">
+        </script>
     {{/member}}
-    {{#member}}
-        <h1>안녕하세요, {{member.name}} 님</h1>
-        <div>UUID : {{member.uuid}} </div>
-    {{/member}}
+    {{^member}}
+        <div><p>로그인 하세요</p></div>
+        <div id = "sse">
+            <div>
+                <form method="post" action="/login">
+                    <input type="text" name="name" id="name">
+                    <input type="password" name="password" id="password">
+                    <button type="submit"> 로그인</button>
+                </form>
+            </div>
 
+        </div>
+    {{/member}}
 
 </div>
-<script>
-var sse = new EventSource('http://localhost:8080/sse');
-sse.onmessage = function (evt) {
-    var el = document.getElementById('sse');
-    el.appendChild(document.createTextNode(evt.data));
-    el.appendChild(document.createElement('br'));
-};
-</script>
+
 </body>
 </html>

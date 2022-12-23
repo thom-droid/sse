@@ -33,11 +33,6 @@ public class TestDBInstance {
 
     private void populateMembers() {
 
-        Member member1 = Member.builder()
-                .name("member1")
-                .password("1234")
-                .build();
-
         Member member2 = Member.builder()
                 .name("member2")
                 .password("1234")
@@ -48,7 +43,7 @@ public class TestDBInstance {
                 .password("1234")
                 .build();
 
-        memberRepository.saveAll(List.of(member1, member2, member3));
+        memberRepository.saveAll(List.of(member2, member3));
     }
 
     void populateBoards() {

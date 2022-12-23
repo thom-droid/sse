@@ -43,7 +43,7 @@ public class NotificationService {
 
         // send dummy
         send(sseEmitter, emitterId, emitterId, "connection made for user [" + memberUUID + "] is made");
-        log.info("connection made for user [" + memberUUID + "] is made");
+        log.info("connection for user [" + memberUUID + "] is made");
 
         return sseEmitter;
     }

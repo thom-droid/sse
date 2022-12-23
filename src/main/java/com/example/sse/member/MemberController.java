@@ -3,6 +3,7 @@ package com.example.sse.member;
 import com.example.sse.member.dto.MemberRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import javax.servlet.http.HttpSession;
@@ -14,15 +15,15 @@ public class MemberController {
     private final MemberService memberService;
 
     @PostMapping("/login")
-    public String login(@RequestBody MemberRequestDto.Post requestDto, HttpSession httpSession) {
+    public String login(String name, String password, Model model) {
 
-        Member member = Member.of(requestDto.getName(), requestDto.getPassword());
+        Member member = Member.of(name, password);
 
         Member foundMember = memberService.findMember(member);
 
-        httpSession.setAttribute("member", foundMember);
+        model.addAttribute("member", foundMember);
 
-        return "redirect:/index";
+        return "index";
 
     }
 }
