@@ -26,6 +26,7 @@ public class Member {
     @Builder.Default
     private String uuid = UUID.randomUUID().toString();
     private String name;
+    private String password;
 
     @JsonIgnore
     @Builder.Default
@@ -40,4 +41,13 @@ public class Member {
     @OneToMany(mappedBy = "writer", fetch = FetchType.LAZY)
     private List<Reply> replyList = new ArrayList<>();
 
+
+    public Member(String name, String password) {
+        this.name = name;
+        this.password = password;
+    }
+
+    public static Member of(String name, String password) {
+        return new Member(name, password);
+    }
 }

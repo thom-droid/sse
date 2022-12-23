@@ -35,14 +35,17 @@ public class TestDBInstance {
 
         Member member1 = Member.builder()
                 .name("member1")
+                .password("1234")
                 .build();
 
         Member member2 = Member.builder()
                 .name("member2")
+                .password("1234")
                 .build();
 
         Member member3 = Member.builder()
                 .name("member3")
+                .password("1234")
                 .build();
 
         memberRepository.saveAll(List.of(member1, member2, member3));
@@ -50,7 +53,7 @@ public class TestDBInstance {
 
     void populateBoards() {
 
-        Member writer = memberRepository.save(Member.builder().name("member1").build());
+        Member writer = memberRepository.save(Member.builder().name("member1").password("1234").build());
 
         Board board1 = Board.builder()
                 .content("board1")
@@ -65,12 +68,12 @@ public class TestDBInstance {
     }
 
     public Member getMemberById(Long id) {
-        return memberRepository.findById(id).orElseGet(() -> memberRepository.save(Member.builder().name("member1").build()));
+        return memberRepository.findById(id).orElseGet(() -> memberRepository.save(Member.builder().name("member1").password("1234").build()));
     }
 
     public Board getBoardById(Long id) {
         return boardRepository.findById(id).orElseGet(() -> {
-                    Member member = getMemberById(id);
+            Member member = memberRepository.findById(id).orElseGet(() -> memberRepository.save(Member.builder().name("member1").password("1234").build()));
 
                     Board board1 = Board.builder()
                             .content("board1")

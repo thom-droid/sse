@@ -36,10 +36,14 @@ public class NotificationService {
         String emitterId = buildEmitterId(memberUUID);
         SseEmitter sseEmitter = sseRepository.saveSse(emitterId, new SseEmitter(TIME_OUT));
         sseEmitter.onCompletion(() -> sseRepository.deleteEmitterById(emitterId));
-        sseEmitter.onTimeout(() -> sseRepository.deleteEmitterById(emitterId));
+        sseEmitter.onTimeout(() -> {
+            sseRepository.deleteEmitterById(emitterId);
+            log.info("connection of [" + memberUUID + "] is timed-out and emitter is deleted");
+        });
 
         // send dummy
         send(sseEmitter, emitterId, emitterId, "connection made for user [" + memberUUID + "] is made");
+        log.info("connection made for user [" + memberUUID + "] is made");
 
         return sseEmitter;
     }
