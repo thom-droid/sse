@@ -4,6 +4,7 @@ import com.example.sse.reply.dto.ReplyRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,7 +15,7 @@ public class ReplyController {
 
     private final ReplyService replyService;
 
-    @RequestMapping("/reply")
+    @PostMapping("/reply")
     public ResponseEntity<Reply> post(@RequestBody ReplyRequestDto.Post requestDto) {
 
         Reply reply = Reply.of(requestDto);

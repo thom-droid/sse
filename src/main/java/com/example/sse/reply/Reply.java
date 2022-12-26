@@ -3,6 +3,7 @@ package com.example.sse.reply;
 import com.example.sse.board.Board;
 import com.example.sse.member.Member;
 import com.example.sse.reply.dto.ReplyRequestDto;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -23,6 +24,7 @@ public class Reply {
 
     private String content;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "BOARD_ID")
     private Board board;

@@ -2,16 +2,26 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>board</title>
+    <title>{{board.title}}</title>
 </head>
 <body>
 <div>
-    <h1>Board</h1>
-    <div><p>below the content..</p></div>
-    <div id = "test">
-        <div></div>
+    <h1>{{board.title}}</h1>
+    <div><p>게시글 번호 : {{board.id}}</p></div>
+    <div>
+        <div>{{board.content}}</div>
+        <div>댓글</div>
+            <div>
+                {{#board.replies}}
+                    <p>{{id}}</p>
+                    <p>{{writer.name}}</p>
+                    <p>{{content}}</p>
+
+                {{/board.replies}}
+            </div>
 
     </div>
 
-
 </div>
+</body>
+</html>
