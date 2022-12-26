@@ -33,7 +33,9 @@ public class BoardController {
         Board board = boardService.findBoardOrThrow(boardId);
 
         model.addAttribute("board", board);
+        // todo: LazyInitializationException occurs.
 
+        // todo: last event id
         return "board";
     }
 }
