@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class SseRepositoryImplTest {
 
-    private SseRepositoryImpl<Notification> sseRepository = new SseRepositoryImpl<>();
+    private SseRepositoryImpl sseRepository = new SseRepositoryImpl();
 
     private Member member;
     private final String url = "http:localhost:8080/sse";
@@ -98,11 +98,11 @@ class SseRepositoryImplTest {
 
         String memberId = member.getId() + "-";
 
-        Map<String, Notification> map = sseRepository.findAllEventsByMemberUUID(memberId);
+        Map<String, Object> map = sseRepository.findAllEventsByMemberUUID(memberId);
 
         assertEquals(3, map.size());
 
-        for (Map.Entry<String, Notification> entry : map.entrySet()) {
+        for (Map.Entry<String, Object> entry : map.entrySet()) {
             System.out.println("key " + entry.getKey() + " :  / value : " + entry.getValue());
         }
     }

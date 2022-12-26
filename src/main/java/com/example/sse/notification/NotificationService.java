@@ -1,6 +1,7 @@
 package com.example.sse.notification;
 
 import com.example.sse.sse.SseRepository;
+import com.example.sse.sse.SseRepositoryImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -15,14 +16,14 @@ import java.util.Map;
 public class NotificationService {
 
     private final NotificationRepository notificationRepository;
-    private final SseRepository<Notification> sseRepository;
+    private final SseRepositoryImpl sseRepository;
 
     static final Long TIME_OUT = 60 * 60 * 1000L;
 
     public void sendNotification(Notification notification) {
 
         String memberUUID = getMemberUUID(notification);
-        Notification savedNotification = saveNotification(notification);
+        Notification savedNotification = notificationRepository.save(notification);
         Map<String, SseEmitter> emitters = sseRepository.findAllSseByMemberUUID(memberUUID);
 
         emitters.forEach((key, sseEmitter) -> {
@@ -35,7 +36,7 @@ public class NotificationService {
     public SseEmitter subscribe(String memberUUID, String lastEventId) {
         String emitterId = buildEmitterId(memberUUID);
         SseEmitter sseEmitter = sseRepository.saveSse(emitterId, new SseEmitter(TIME_OUT));
-        sseEmitter.onCompletion(() -> sseRepository.deleteEmitterById(emitterId));
+//        sseEmitter.onCompletion(() -> sseRepository.deleteEmitterById(emitterId));
         sseEmitter.onTimeout(() -> {
             sseRepository.deleteEmitterById(emitterId);
             log.info("connection of [" + memberUUID + "] is timed-out and emitter is deleted");
@@ -59,6 +60,7 @@ public class NotificationService {
     private void send(SseEmitter sseEmitter, String eventId, String emitterId, Object data) {
 
         try {
+            log.info("sending data: {} ", data);
             sseEmitter.send(SseEmitter.event().id(eventId).data(data));
         } catch (IOException e) {
             log.debug("event push failed. info : {} / " +

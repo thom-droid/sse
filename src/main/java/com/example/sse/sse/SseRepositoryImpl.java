@@ -1,19 +1,22 @@
 package com.example.sse.sse;
 
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
-import java.util.Date;
-import java.util.List;
+import javax.annotation.PostConstruct;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
-@Repository
-public class SseRepositoryImpl<T> implements SseRepository<T> {
+@NoArgsConstructor
+@Component
+public class SseRepositoryImpl implements SseRepository {
 
     private final Map<String, SseEmitter> emitters = new ConcurrentHashMap<>();
-    private final Map<String, T> eventCaches = new ConcurrentHashMap<>();
+    private final Map<String, Object> eventCaches = new ConcurrentHashMap<>();
 
     @Override
     public SseEmitter saveSse(String emitterId, SseEmitter sseEmitter) {
@@ -22,7 +25,7 @@ public class SseRepositoryImpl<T> implements SseRepository<T> {
     }
 
     @Override
-    public T saveEvent(String emitterId, T event) {
+    public Object saveEvent(String emitterId, Object event) {
         eventCaches.put(emitterId, event);
         return event;
     }
@@ -35,7 +38,7 @@ public class SseRepositoryImpl<T> implements SseRepository<T> {
     }
 
     @Override
-    public Map<String, T> findAllEventsByMemberUUID(String memberId) {
+    public Map<String, Object> findAllEventsByMemberUUID(String memberId) {
         return eventCaches.entrySet().stream()
                 .filter(entry -> entry.getKey().startsWith(memberId))
                 .collect(Collectors.toConcurrentMap(Map.Entry::getKey, Map.Entry::getValue));

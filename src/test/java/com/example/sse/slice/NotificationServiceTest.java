@@ -24,7 +24,7 @@ public class NotificationServiceTest {
     private NotificationRepository notificationRepository;
 
     @Autowired
-    private SseRepository<Notification> sseRepository;
+    private SseRepository sseRepository;
 
     @Autowired
     private TestDBInstance testDBInstance;

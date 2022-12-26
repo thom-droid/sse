@@ -31,7 +31,7 @@ public class ReplyService {
 
         Notification notification = Notification.of(Notification.Type.NEW_REPLY, board.getWriter(), board.getUrl());
 
-        publisher.publishEvent(new NotificationEvent<>(notification));
+        publisher.publishEvent(new NotificationEvent<>(this, notification));
 
         return savedReply;
     }

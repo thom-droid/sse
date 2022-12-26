@@ -33,10 +33,12 @@ public class Member {
     @OneToMany(mappedBy = "writer", fetch = FetchType.LAZY)
     private List<Board> boardList = new ArrayList<>();
 
+    @JsonIgnore
     @Builder.Default
     @OneToMany(mappedBy = "receiver", fetch = FetchType.LAZY)
     private List<Notification> notificationList = new ArrayList<>();
 
+    @JsonIgnore
     @Builder.Default
     @OneToMany(mappedBy = "writer", fetch = FetchType.LAZY)
     private List<Reply> replyList = new ArrayList<>();
