@@ -7,9 +7,11 @@ import com.example.sse.member.Member;
 import com.example.sse.member.MemberService;
 import com.example.sse.notification.Notification;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @RequiredArgsConstructor
 @Service
 public class ReplyService {
@@ -30,6 +32,8 @@ public class ReplyService {
         Reply savedReply = replyRepository.save(reply);
 
         Notification notification = Notification.of(Notification.Type.NEW_REPLY, board.getWriter(), board.getUrl());
+
+        log.info("reply saved. Notification is now to be sent.");
 
         publisher.publishEvent(new NotificationEvent<>(this, notification));
 

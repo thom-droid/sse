@@ -27,7 +27,7 @@ public class Board {
     private Member writer;
 
     @Builder.Default
-    @OneToMany(mappedBy = "board", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "board")
     private List<Reply> replies = new ArrayList<>();
 
     private String title;

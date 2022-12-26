@@ -15,15 +15,15 @@ public class MemberController {
     private final MemberService memberService;
 
     @PostMapping("/login")
-    public String login(String name, String password, Model model) {
+    public String login(String name, String password, HttpSession session) {
 
         Member member = Member.of(name, password);
 
         Member foundMember = memberService.findMember(member);
 
-        model.addAttribute("member", foundMember);
+        session.setAttribute("member", foundMember);
 
-        return "index";
+        return "redirect:/index";
 
     }
 }

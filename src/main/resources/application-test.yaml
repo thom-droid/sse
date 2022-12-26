@@ -6,6 +6,7 @@ spring:
     properties:
       hibernate:
         format_sql: true  # (3) SQL pretty print
+    open-in-view: false
   h2:
     console:
       enabled: true
@@ -16,4 +17,4 @@ spring:
     username: sa
     password:
   mustache:
-    expose-session-attribute: true
+    expose-session-attributes: true

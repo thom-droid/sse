@@ -23,5 +23,17 @@
     </div>
 
 </div>
+<div>
+    <h1> 댓글 남기기 </h1>
+    <div>
+        <form action ="/reply" method="post">
+            <input type="hidden" name="writerId">{{member.id}}
+            <input type="text" name="content">
+            <input type="hidden" name="boardId">{{board.id}}
+            <button type="submit">제출</button>
+        </form>
+
+    </div>
+</div>
 </body>
 </html>

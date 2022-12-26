@@ -16,7 +16,7 @@ import java.util.Map;
 public class NotificationService {
 
     private final NotificationRepository notificationRepository;
-    private final SseRepositoryImpl sseRepository;
+    private final SseRepository sseRepository;
 
     static final Long TIME_OUT = 60 * 60 * 1000L;
 
@@ -36,7 +36,7 @@ public class NotificationService {
     public SseEmitter subscribe(String memberUUID, String lastEventId) {
         String emitterId = buildEmitterId(memberUUID);
         SseEmitter sseEmitter = sseRepository.saveSse(emitterId, new SseEmitter(TIME_OUT));
-//        sseEmitter.onCompletion(() -> sseRepository.deleteEmitterById(emitterId));
+        sseEmitter.onCompletion(() -> sseRepository.deleteEmitterById(emitterId));
         sseEmitter.onTimeout(() -> {
             sseRepository.deleteEmitterById(emitterId);
             log.info("connection of [" + memberUUID + "] is timed-out and emitter is deleted");

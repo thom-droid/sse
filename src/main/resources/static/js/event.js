@@ -7,3 +7,9 @@ sse.onmessage = function (evt) {
     el.appendChild(document.createTextNode(evt.data));
     el.appendChild(document.createElement('br'));
 };
+
+sse.onerror = function (){
+    console.log("An error occurred. Closing connection.");
+    sse.close();
+}
+
