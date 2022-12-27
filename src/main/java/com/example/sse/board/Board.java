@@ -4,12 +4,14 @@ import com.example.sse.board.dto.BoardDto;
 import com.example.sse.member.Member;
 import com.example.sse.reply.Reply;
 import lombok.*;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.web.util.UriComponents;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@NamedEntityGraph(name = "Board.replies", attributeNodes = @NamedAttributeNode("replies"))
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
@@ -22,7 +24,7 @@ public class Board {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "WRITER_ID")
     private Member writer;
 

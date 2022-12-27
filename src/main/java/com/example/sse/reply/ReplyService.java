@@ -1,6 +1,7 @@
 package com.example.sse.reply;
 
 import com.example.sse.board.Board;
+import com.example.sse.board.BoardRepository;
 import com.example.sse.board.BoardService;
 import com.example.sse.event.NotificationEvent;
 import com.example.sse.member.Member;
@@ -10,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -19,11 +21,14 @@ public class ReplyService {
     private final ReplyRepository replyRepository;
     private final MemberService memberService;
     private final BoardService boardService;
+    private final BoardRepository boardRepository;
     private final ApplicationEventPublisher publisher;
 
+//    @Transactional
     public Reply saveReply(Reply reply) {
 
         Member member = memberService.findMemberOrThrow(reply.getWriter().getId());
+
         Board board = boardService.findBoardOrThrow(reply.getBoard().getId());
 
         reply.addMember(member);

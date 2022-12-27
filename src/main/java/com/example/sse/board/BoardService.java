@@ -5,6 +5,7 @@ import com.example.sse.member.Member;
 import com.example.sse.member.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -31,6 +32,7 @@ public class BoardService {
         return boardRepository.save(board);
     }
 
+    @Transactional(readOnly = true)
     public Board findBoardOrThrow(Long boardId) {
         return boardRepository.findById(boardId).orElseThrow();
     }

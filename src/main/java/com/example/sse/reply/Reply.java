@@ -29,7 +29,7 @@ public class Reply {
     @JoinColumn(name = "BOARD_ID")
     private Board board;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "WRITER_ID")
     private Member writer;
 

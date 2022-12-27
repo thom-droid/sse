@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+@NamedEntityGraph(name="member.replyList", attributeNodes = @NamedAttributeNode("replyList"))
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
