@@ -1,6 +1,7 @@
 package com.example.sse.board;
 
 import com.example.sse.board.dto.BoardDto;
+import com.example.sse.board.dto.BoardProjectionDto;
 import com.example.sse.helper.uri.RequestURL;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -33,9 +34,18 @@ public class BoardController {
         Board board = boardService.findBoardOrThrow(boardId);
 
         model.addAttribute("board", board);
-        // todo: LazyInitializationException occurs.
 
         // todo: last event id
+        return "board";
+    }
+
+    @GetMapping("/boards/projections/{board-id}")
+    public String getBoardWithProjection(@PathVariable("board-id") Long boardId, Model model) {
+
+        BoardProjectionDto board = boardService.findBoardProjectionDtoOrThrow(boardId);
+
+        model.addAttribute("board", board);
+
         return "board";
     }
 }

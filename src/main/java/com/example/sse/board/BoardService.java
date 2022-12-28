@@ -1,6 +1,7 @@
 package com.example.sse.board;
 
 import com.example.sse.board.dto.BoardDto;
+import com.example.sse.board.dto.BoardProjectionDto;
 import com.example.sse.member.Member;
 import com.example.sse.member.MemberService;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +20,7 @@ public class BoardService {
     private final BoardRepository boardRepository;
     private final MemberService memberService;
 
+    @Transactional
     public Board saveBoard(Board board) {
 
         Member member = memberService.findMemberOrThrow(board.getWriter().getId());
@@ -32,10 +34,12 @@ public class BoardService {
         return boardRepository.save(board);
     }
 
-    @Transactional(readOnly = true)
     public Board findBoardOrThrow(Long boardId) {
         return boardRepository.findById(boardId).orElseThrow();
     }
 
+    public BoardProjectionDto findBoardProjectionDtoOrThrow(Long boardId) {
+        return boardRepository.findByIdWIthProjection(boardId).orElseThrow();
+    }
 
 }

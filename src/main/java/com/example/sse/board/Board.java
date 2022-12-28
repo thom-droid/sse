@@ -11,7 +11,10 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@NamedEntityGraph(name = "Board.replies", attributeNodes = @NamedAttributeNode("replies"))
+@NamedEntityGraph(
+        name = "Board.replies", attributeNodes = @NamedAttributeNode(value = "replies", subgraph = "replies.writer"),
+        subgraphs = @NamedSubgraph(name = "replies.writer", attributeNodes = @NamedAttributeNode("writer"))
+)
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
