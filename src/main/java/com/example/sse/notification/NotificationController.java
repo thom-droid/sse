@@ -24,6 +24,7 @@ public class NotificationController {
             @RequestHeader(required = false, value = "Last-Event-ID") String lastEventId) {
 
         if (memberUUID.isEmpty()) {
+            log.info("memberUUID is empty");
             return null;
         }
 

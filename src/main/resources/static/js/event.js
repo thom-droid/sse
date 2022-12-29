@@ -1,15 +1,28 @@
-var uuid = document.getElementById('uuid');
-var url = 'http://localhost:8080/event-stream?member-uuid=' + uuid.innerText;
-var sse = new EventSource(url);
+const uuid = document.getElementById('uuid');
+const url = 'http://localhost:8080/event-stream?member-uuid=' + uuid.innerText;
+const request = new Request(url);
+const sse = new EventSource(url);
 
 sse.onmessage = function (evt) {
+    console.log(sse.readyState);
     var el = document.getElementById('notification');
     el.appendChild(document.createTextNode(evt.data));
     el.appendChild(document.createElement('br'));
 };
 
 sse.onerror = function (){
-    console.log("An error occurred. Closing connection.");
-    sse.close();
+    console.log("timed out. Reestablishing the connection...");
+
+    fetch(request).then((response) => {
+
+        const status = response.status;
+        console.log(`connection reestablished. ${status}`);
+
+    }).catch((error) =>{
+        console.log(`there is no server running. ${error}`);
+        sse.close();
+    });
+
+
 }
 

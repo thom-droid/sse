@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import java.io.IOException;
+import java.net.http.HttpConnectTimeoutException;
 import java.util.Map;
 
 @Slf4j
@@ -18,7 +19,7 @@ public class NotificationService {
     private final NotificationRepository notificationRepository;
     private final SseRepository sseRepository;
 
-    static final Long TIME_OUT = 60 * 60 * 1000L;
+    static final Long TIME_OUT = 10 * 1000L;
 
     public void sendNotification(Notification notification) {
 
@@ -36,6 +37,13 @@ public class NotificationService {
     public SseEmitter subscribe(String memberUUID, String lastEventId) {
         String emitterId = buildEmitterId(memberUUID);
         SseEmitter sseEmitter = sseRepository.saveSse(emitterId, new SseEmitter(TIME_OUT));
+
+        if (lastEventId != null) {
+            String eventId = buildEmitterId(lastEventId);
+            Map<String, Object> cache = sseRepository.findAllEventsByMemberUUID(eventId);
+            send(sseEmitter, eventId, eventId, cache.get(eventId));
+        }
+
         sseEmitter.onCompletion(() -> sseRepository.deleteEmitterById(emitterId));
         sseEmitter.onTimeout(() -> {
             sseRepository.deleteEmitterById(emitterId);
