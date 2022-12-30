@@ -32,7 +32,8 @@ public class NotificationController {
             log.info("last event id: {}", lastEventId);
         }
 
-        return notificationService.subscribe(memberUUID, lastEventId);
-
+        SseEmitter sseEmitter =  notificationService.subscribe(memberUUID, lastEventId);
+        log.info("subscribed");
+        return sseEmitter;
     }
 }

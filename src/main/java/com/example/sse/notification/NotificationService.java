@@ -36,23 +36,36 @@ public class NotificationService {
 
     public SseEmitter subscribe(String memberUUID, String lastEventId) {
         String emitterId = buildEmitterId(memberUUID);
+        String emitterIdCache = emitterId;
         SseEmitter sseEmitter = sseRepository.saveSse(emitterId, new SseEmitter(TIME_OUT));
+        sseRepository.saveEvent(emitterId, "initialization");
 
-        if (lastEventId != null) {
-            String eventId = buildEmitterId(lastEventId);
-            Map<String, Object> cache = sseRepository.findAllEventsByMemberUUID(eventId);
-            send(sseEmitter, eventId, eventId, cache.get(eventId));
-        }
+        Object data = "connection made for user [" + memberUUID + "] is made";
 
-        sseEmitter.onCompletion(() -> sseRepository.deleteEmitterById(emitterId));
+//        if (lastEventId != null) {
+//            Map<String, Object> cache = sseRepository.findAllEventsByMemberUUID(lastEventId);
+//
+//            if (!cache.isEmpty()) {
+//                data = cache.get(lastEventId);
+//                emitterId = lastEventId;
+//            }
+//        }
+
+        // send dummy
+        send(sseEmitter, emitterId, emitterId, data);
+
+        sseEmitter.onCompletion(() -> {
+
+            sseRepository.deleteEmitterById(emitterIdCache);
+            log.info("message has been sent. emitter removed.");
+
+        });
+
         sseEmitter.onTimeout(() -> {
-            sseRepository.deleteEmitterById(emitterId);
+            sseRepository.deleteEmitterById(emitterIdCache);
             log.info("connection of [" + memberUUID + "] is timed-out and emitter is deleted");
         });
 
-        // send dummy
-        send(sseEmitter, emitterId, emitterId, "connection made for user [" + memberUUID + "] is made");
-        log.info("connection for user [" + memberUUID + "] is made");
 
         return sseEmitter;
     }
