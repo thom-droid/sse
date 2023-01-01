@@ -45,10 +45,10 @@ public class RepositoryTest {
 //
 //        EntityGraph<?> entityGraph = entityManager.createEntityGraph("member.replyList");
 //
-//        TypedQuery<Member> q = transactionTemplate.execute(status -> entityManager
-//                .createQuery("SELECT m FROM Member m WHERE m.id = :memberId", Member.class)
-//                .setParameter("memberId", 1L)
-//                .setHint("javax.persistence.fetchgraph", entityGraph));
+////        TypedQuery<Member> q = transactionTemplate.execute(status -> entityManager
+////                .createQuery("SELECT m FROM Member m WHERE m.id = :memberId", Member.class)
+////                .setParameter("memberId", 1L)
+////                .setHint("javax.persistence.fetchgraph", entityGraph));
 //
 //        Member member = q.getSingleResult();
 //
