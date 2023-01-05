@@ -4,25 +4,24 @@ import com.example.sse.board.Board;
 import com.example.sse.board.BoardRepository;
 import com.example.sse.member.Member;
 import com.example.sse.member.MemberRepository;
+import com.example.sse.member.MemberService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.boot.orm.jpa.EntityManagerFactoryBuilder;
+import org.hibernate.Hibernate;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Profile;
-import org.springframework.orm.jpa.EntityManagerFactoryUtils;
 import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-import javax.persistence.PersistenceContext;
 import java.util.List;
 
 @RequiredArgsConstructor
 @Profile("test")
-@Repository
+@Service
 public class TestDBInstance {
 
     private final MemberRepository memberRepository;
+    private final MemberService memberService;
     private final BoardRepository boardRepository;
 
     @Bean
@@ -60,6 +59,24 @@ public class TestDBInstance {
 
         boardRepository.save(board1);
 
+        populateBoardForNotificationException(writer);
+
+    }
+
+    /** Board without proper url that will cause {@link org.springframework.dao.DataIntegrityViolationException }
+     * when persisting notification after an event published by {@link com.example.sse.reply.ReplyService}. */
+
+    private void populateBoardForNotificationException(Member member) {
+
+        Board board2 = Board.builder()
+                .content("board2 - with url null ")
+                .url(null)
+                .title("board1 title")
+                .build();
+
+        board2.addMember(member);
+
+        boardRepository.save(board2);
     }
 
     public Member getMemberById(Long id) {

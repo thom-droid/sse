@@ -25,6 +25,8 @@ public class Notification {
     private Member receiver;
 
     private String message;
+
+    @Column(nullable = false)
     private String relatedURL;
     private boolean isRead;
 
