@@ -18,6 +18,7 @@ public class NotificationEventListener {
     private final NotificationService notificationService;
 
     @Async
+
     @EventListener
     public void handleNotificationPush(NotificationEvent<Notification> event) {
 
