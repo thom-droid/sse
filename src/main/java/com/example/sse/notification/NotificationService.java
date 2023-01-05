@@ -25,6 +25,7 @@ public class NotificationService {
 
         String memberUUID = getMemberUUID(notification);
         Notification savedNotification = notificationRepository.save(notification);
+
         Map<String, SseEmitter> emitters = customSseHelper.getEmittersByMemberUUID(memberUUID);
 
         emitters.forEach((key, sseEmitter) -> {

@@ -8,6 +8,8 @@ import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.event.TransactionPhase;
+import org.springframework.transaction.event.TransactionalEventListener;
 
 @Slf4j
 @EnableAsync
@@ -18,13 +20,13 @@ public class NotificationEventListener {
     private final NotificationService notificationService;
 
     @Async
-
+//    @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
     @EventListener
     public void handleNotificationPush(NotificationEvent<Notification> event) {
 
         Notification notification = event.getEvent();
 
-        log.info("notification is sent. receiver : {} , message : {}", notification.getReceiver().getId(), notification.getMessage());
+        log.info("notification is now being sent. receiver : {} , message : {}", notification.getReceiver().getId(), notification.getMessage());
         notificationService.sendNotification(notification);
     }
 

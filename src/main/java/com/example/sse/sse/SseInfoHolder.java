@@ -10,7 +10,7 @@ import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 @Getter
 public class SseInfoHolder {
 
-    private static final long TIME_OUT = 60 * 60 * 1000L;
+    private static final long TIME_OUT = 60 * 1000L;
 
     private final String memberUUID;
     private final String lastEventId;

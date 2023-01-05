@@ -19,7 +19,7 @@ public class SseController {
 
     @GetMapping(value = "/sse", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     public SseEmitter handleSse() {
-        SseEmitter sseEmitter = new SseEmitter();
+        SseEmitter sseEmitter = new SseEmitter(10000L);
         log.info("{} : message : {} ", Thread.currentThread().getName(), Math.random());
         nonblockingService.execute(() -> {
             try {
